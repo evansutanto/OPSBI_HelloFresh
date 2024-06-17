@@ -1,19 +1,22 @@
 # Recipes ETL
 This script is in fulfillment of the HelloFresh assessment. The directory includes:
 
-The main script is saved in a single Python file, namely **script.py**
-
-The packages are saved in a single Txt file, namely **requirements.txt**
+- The main script is saved in a single Python file, namely `script.py`
+- The packages are saved in a single Txt file, namely `requirements.txt`
 
 ## How to Run
 1. The script contains several external packages, namely pandas and regex.
    
    To install the mentioned packages, the following command can be run
 
-   `pip install -r requirements.txt`
+   ```
+   pip install -r requirements.txt
+   ```
 2. To run the script, simply run the command
 
-    ```python script.py```
+    ```
+    python script.py
+    ```
 
     1. The script will ask the path of the dataset, an example of a good path will be shown. 
         
