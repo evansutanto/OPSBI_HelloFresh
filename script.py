@@ -10,11 +10,11 @@ def to_minutes(time_string: str) -> int:
 
     Returns:
         int: The total time in minutes.
-        -1: If the time string is invalid.
+        0: If the time string is invalid.
     """
     match = re.match(r"PT((?P<hours>\d+)H)?((?P<minutes>\d+)M)?", time_string)
     if not match:
-        return -1
+        return 0
     hours = int(match.group("hours")) if match.group("hours") else 0
     minutes = int(match.group("minutes")) if match.group("minutes") else 0
     return hours * 60 + minutes
@@ -28,7 +28,7 @@ def assign_difficulty(minutes: int) -> str:
     """
     if minutes > 60:
         return "Hard"
-    elif minutes < 60 and minutes > 30:
+    elif minutes <= 60 and minutes >= 30:
         return "Medium"
     elif minutes < 30 and minutes > 0:
         return "Easy"
