@@ -3,20 +3,34 @@ import json
 import re
 import os
 
-def to_minutes(time):
-    match = re.match(r"PT((?P<hours>\d+)H)?((?P<minutes>\d+)M)?", time)
+def to_minutes(time_string: str) -> int:
+    """Converts a time string format to minutes using regex.
+    Args:
+        time_string: A string representing a time.
+
+    Returns:
+        int: The total time in minutes.
+        -1: If the time string is invalid.
+    """
+    match = re.match(r"PT((?P<hours>\d+)H)?((?P<minutes>\d+)M)?", time_string)
     if not match:
-        return -1 # accounts for PT and empty strings
+        return -1
     hours = int(match.group("hours")) if match.group("hours") else 0
     minutes = int(match.group("minutes")) if match.group("minutes") else 0
     return hours * 60 + minutes
 
-def assign_difficulty(time):
-    if time > 60:
+def assign_difficulty(minutes: int) -> str:
+    """Assigns a difficulty level based on the total time.
+    Args:
+        minutes: An integer representing the total time in minutes.
+    Returns:
+        str: The difficulty level of the recipe (Easy, Medium, Hard, Unknown).
+    """
+    if minutes > 60:
         return "Hard"
-    elif time < 60 and time > 30:
+    elif minutes < 60 and minutes > 30:
         return "Medium"
-    elif time < 30 and time > 0:
+    elif minutes < 30 and minutes > 0:
         return "Easy"
     else:
         return "Unknown"
@@ -39,7 +53,9 @@ def main():
     
     print("Dataset read successfully. Proceeding to filter chili recipes.")
     chili_df = df[df["ingredients"].str.contains("chile|chilies|chili|chiles", case=False)].copy()
+    # Add a new column for total time in minutes
     chili_df.loc[:, "totalTime"] = chili_df["prepTime"].apply(to_minutes) + chili_df["cookTime"].apply(to_minutes)
+    # Assign difficulty level based on total time
     chili_df.loc[:, "difficulty"] = chili_df["totalTime"].apply(assign_difficulty)
     chili_df = chili_df.drop(columns=["totalTime"])
     
